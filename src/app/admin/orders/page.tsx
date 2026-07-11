@@ -32,7 +32,8 @@ export default async function AdminOrders() {
         </div>
       ) : (
         <div className="rounded-lg border border-zinc-200 bg-white overflow-hidden shadow-sm">
-          <table className="w-full text-sm text-left">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left min-w-[800px]">
             <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-600 font-medium">
               <tr>
                 <th className="px-6 py-4">Order ID</th>
@@ -83,6 +84,7 @@ export default async function AdminOrders() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

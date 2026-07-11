@@ -37,8 +37,9 @@ export default async function AdminProducts() {
           No products found. Click "Add Product" to create your first seed listing.
         </div>
       ) : (
-        <div className="rounded-lg border border-zinc-200 bg-white overflow-hidden">
-          <table className="w-full text-sm text-left">
+        <div className="rounded-lg border border-zinc-200 bg-white overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left min-w-[800px]">
             <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-600 font-medium">
               <tr>
                 <th className="px-6 py-4">Product</th>
@@ -102,6 +103,7 @@ export default async function AdminProducts() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

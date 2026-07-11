@@ -89,7 +89,7 @@ export default async function AdminDashboard() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[600px]">
                 <thead className="bg-zinc-50 border-b border-zinc-100 text-zinc-600 font-medium">
                   <tr>
                     <th className="px-4 py-3">Order ID</th>
