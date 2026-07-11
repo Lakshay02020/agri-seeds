@@ -1,20 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { createProduct } from '@/actions/products'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CldUploadWidget } from 'next-cloudinary'
-import { ImagePlus, X } from 'lucide-react'
-import Image from 'next/image'
+import { createProduct, updateProduct } from '@/actions/products'
 
-export function ProductForm({ categories }: { categories: any[] }) {
-  const [imageUrls, setImageUrls] = useState<string[]>([])
+export function ProductForm({ categories, initialData }: { categories: any[], initialData?: any }) {
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    initialData?.product_images?.map((img: any) => img.image_url) || []
+  )
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -29,11 +21,13 @@ export function ProductForm({ categories }: { categories: any[] }) {
     }
 
     formData.append('imageUrls', JSON.stringify(imageUrls))
-    // Switch state comes naturally through 'is_active' if we have a hidden input, 
-    // but Shadcn switch doesn't emit native form data easily without hidden input.
-    // So we handle it in the form.
 
-    const result = await createProduct(formData)
+    let result
+    if (initialData?.id) {
+      result = await updateProduct(initialData.id, formData)
+    } else {
+      result = await createProduct(formData)
+    }
     
     if (result?.error) {
       setError(result.error)
@@ -61,13 +55,13 @@ export function ProductForm({ categories }: { categories: any[] }) {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Product Name *</Label>
-                <Input id="name" name="name" required placeholder="e.g., Tomato F1 Hybrid" />
+                <Input id="name" name="name" required placeholder="e.g., Tomato F1 Hybrid" defaultValue={initialData?.name} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category_id">Category *</Label>
-                  <Select name="category_id" required>
+                  <Select name="category_id" required defaultValue={initialData?.category_id}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
@@ -81,13 +75,13 @@ export function ProductForm({ categories }: { categories: any[] }) {
                 
                 <div className="space-y-2">
                   <Label htmlFor="brand">Brand</Label>
-                  <Input id="brand" name="brand" placeholder="e.g., Syngenta" />
+                  <Input id="brand" name="brand" placeholder="e.g., Syngenta" defaultValue={initialData?.brand} />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <Textarea id="description" name="description" className="min-h-[120px]" placeholder="Detailed product description..." />
+                <Textarea id="description" name="description" className="min-h-[120px]" placeholder="Detailed product description..." defaultValue={initialData?.description} />
               </div>
             </CardContent>
           </Card>
@@ -100,19 +94,19 @@ export function ProductForm({ categories }: { categories: any[] }) {
             <CardContent className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="price">Price (₹) *</Label>
-                <Input id="price" name="price" type="number" step="0.01" required placeholder="0.00" />
+                <Input id="price" name="price" type="number" step="0.01" required placeholder="0.00" defaultValue={initialData?.price} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="discount">Discount (₹)</Label>
-                <Input id="discount" name="discount" type="number" step="0.01" defaultValue="0" />
+                <Input id="discount" name="discount" type="number" step="0.01" defaultValue={initialData?.discount || "0"} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="stock">Available Stock *</Label>
-                <Input id="stock" name="stock" type="number" required placeholder="100" />
+                <Input id="stock" name="stock" type="number" required placeholder="100" defaultValue={initialData?.stock} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="pack_size">Pack Size</Label>
-                <Input id="pack_size" name="pack_size" placeholder="e.g., 10g, 500 seeds" />
+                <Input id="pack_size" name="pack_size" placeholder="e.g., 10g, 500 seeds" defaultValue={initialData?.pack_size} />
               </div>
             </CardContent>
           </Card>
@@ -125,15 +119,15 @@ export function ProductForm({ categories }: { categories: any[] }) {
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="crop_type">Crop Type</Label>
-                <Input id="crop_type" name="crop_type" placeholder="e.g., Vegetable" />
+                <Input id="crop_type" name="crop_type" placeholder="e.g., Vegetable" defaultValue={initialData?.crop_type} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="seed_variety">Seed Variety</Label>
-                <Input id="seed_variety" name="seed_variety" placeholder="e.g., Roma" />
+                <Input id="seed_variety" name="seed_variety" placeholder="e.g., Roma" defaultValue={initialData?.seed_variety} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="hybrid_open_pollinated">Seed Type</Label>
-                <Select name="hybrid_open_pollinated" defaultValue="Hybrid">
+                <Select name="hybrid_open_pollinated" defaultValue={initialData?.hybrid_open_pollinated || "Hybrid"}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -145,15 +139,15 @@ export function ProductForm({ categories }: { categories: any[] }) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="season">Suitable Season</Label>
-                <Input id="season" name="season" placeholder="e.g., Rabi, Kharif, All Season" />
+                <Input id="season" name="season" placeholder="e.g., Rabi, Kharif, All Season" defaultValue={initialData?.season} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="maturity_duration">Maturity Duration</Label>
-                <Input id="maturity_duration" name="maturity_duration" placeholder="e.g., 60-70 Days" />
+                <Input id="maturity_duration" name="maturity_duration" placeholder="e.g., 60-70 Days" defaultValue={initialData?.maturity_duration} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="disease_resistance">Disease Resistance</Label>
-                <Input id="disease_resistance" name="disease_resistance" placeholder="e.g., ToLCV, Early Blight" />
+                <Input id="disease_resistance" name="disease_resistance" placeholder="e.g., ToLCV, Early Blight" defaultValue={initialData?.disease_resistance} />
               </div>
             </CardContent>
           </Card>
@@ -209,15 +203,15 @@ export function ProductForm({ categories }: { categories: any[] }) {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="yield_info">Yield Information</Label>
-                <Textarea id="yield_info" name="yield_info" placeholder="Expected yield per acre..." />
+                <Textarea id="yield_info" name="yield_info" placeholder="Expected yield per acre..." defaultValue={initialData?.yield_info} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="sowing_time">Sowing Time</Label>
-                <Input id="sowing_time" name="sowing_time" placeholder="Best months to sow..." />
+                <Input id="sowing_time" name="sowing_time" placeholder="Best months to sow..." defaultValue={initialData?.sowing_time} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="storage_instructions">Storage Instructions</Label>
-                <Input id="storage_instructions" name="storage_instructions" placeholder="e.g., Store in a cool, dry place" />
+                <Input id="storage_instructions" name="storage_instructions" placeholder="e.g., Store in a cool, dry place" defaultValue={initialData?.storage_instructions} />
               </div>
             </CardContent>
           </Card>
@@ -229,17 +223,17 @@ export function ProductForm({ categories }: { categories: any[] }) {
                   <Label>Active Status</Label>
                   <p className="text-sm text-zinc-500">Make this product visible in the store.</p>
                 </div>
-                <Switch defaultChecked name="_is_active_dummy" onCheckedChange={(c) => {
+                <Switch defaultChecked={initialData ? initialData.is_active : true} name="_is_active_dummy" onCheckedChange={(c) => {
                   const el = document.getElementById('is_active_hidden') as HTMLInputElement
                   if (el) el.value = c.toString()
                 }} />
-                <input type="hidden" id="is_active_hidden" name="is_active" value="true" />
+                <input type="hidden" id="is_active_hidden" name="is_active" value={initialData ? initialData.is_active.toString() : "true"} />
               </div>
             </CardContent>
           </Card>
 
           <Button type="submit" disabled={loading} size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white shadow-lg">
-            {loading ? 'Publishing Product...' : 'Publish Product'}
+            {loading ? (initialData ? 'Updating Product...' : 'Publishing Product...') : (initialData ? 'Update Product' : 'Publish Product')}
           </Button>
         </div>
       </div>

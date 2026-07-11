@@ -83,9 +83,11 @@ export default async function AdminProducts() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Button variant="outline" size="sm" className="h-8">
-                        <Edit className="h-3 w-3 mr-1" /> Edit
-                      </Button>
+                      <Link href={`/admin/products/${product.id}/edit`}>
+                        <Button variant="outline" size="sm" className="h-8">
+                          <Edit className="h-3 w-3 mr-1" /> Edit
+                        </Button>
+                      </Link>
                       <form action={async () => {
                         'use server'
                         await deleteProduct(product.id)
