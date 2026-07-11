@@ -66,11 +66,9 @@ export default function AdminLayout({
             <span className="font-bold text-zinc-900">AgriAdmin</span>
           </Link>
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
+            <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-0">
               <div className="h-16 flex items-center px-6 border-b border-zinc-200">
