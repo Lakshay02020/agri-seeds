@@ -70,7 +70,7 @@ export default async function AdminLayout({
         
         <div className="p-4 border-t border-zinc-200">
           <form action={logout}>
-            <Button variant="ghost" className="w-full justify-start text-zinc-600 hover:text-red-600 hover:bg-red-50">
+            <Button type="submit" variant="ghost" className="w-full justify-start text-zinc-600 hover:text-red-600 hover:bg-red-50">
               <LogOut className="mr-2 h-5 w-5" />
               Sign out
             </Button>
@@ -125,7 +125,7 @@ export default async function AdminLayout({
               </div>
               <div className="p-4 border-t border-zinc-200 absolute bottom-0 w-full">
                 <form action={logout}>
-                  <Button variant="ghost" className="w-full justify-start text-zinc-600 hover:text-red-600 hover:bg-red-50">
+                  <Button type="submit" variant="ghost" className="w-full justify-start text-zinc-600 hover:text-red-600 hover:bg-red-50">
                     <LogOut className="mr-2 h-5 w-5" />
                     Sign out
                   </Button>
