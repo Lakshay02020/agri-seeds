@@ -65,10 +65,15 @@ export async function verifyPaymentAndCreateOrder(
     .insert({
       user_id: user.id,
       total_amount: totalAmount,
-      status: 'Processing',
-      shipping_address: `${shippingDetails.address}, ${shippingDetails.city}, ${shippingDetails.state} ${shippingDetails.pincode}`,
-      payment_id: paymentId,
-      payment_status: 'Paid',
+      subtotal: totalAmount,
+      tax: 0,
+      shipping_cost: 0,
+      payment_method: 'RAZORPAY',
+      payment_status: 'PAID',
+      order_status: 'PROCESSING',
+      razorpay_order_id: orderId,
+      razorpay_payment_id: paymentId,
+      shipping_address: shippingDetails,
     })
     .select('id')
     .single()
@@ -82,8 +87,9 @@ export async function verifyPaymentAndCreateOrder(
   const orderItemsInsert = cartItems.map(item => ({
     order_id: dbOrder.id,
     product_id: item.id,
-    quantity: item.quantity,
-    price_at_time: item.price
+    product_name: item.name,
+    price: item.price,
+    quantity: item.quantity
   }))
 
   const { error: itemsError } = await supabase
