@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Sprout, LayoutDashboard, Package, ShoppingCart, Users, LogOut, Settings, List } from "lucide-react"
 import { logout } from "@/actions/auth"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 
 export default function AdminLayout({
@@ -81,26 +81,26 @@ export default function AdminLayout({
               </div>
               <div className="flex-1 overflow-auto py-4">
                 <nav className="grid gap-1 px-4">
-                  <Link href="/admin" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-900 hover:bg-zinc-100 transition-all">
+                  <SheetClose render={<Link href="/admin" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-900 hover:bg-zinc-100 transition-all" />}>
                     <LayoutDashboard className="h-5 w-5 text-green-600" />
                     <span className="font-medium">Dashboard</span>
-                  </Link>
-                  <Link href="/admin/orders" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all">
+                  </SheetClose>
+                  <SheetClose render={<Link href="/admin/orders" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all" />}>
                     <ShoppingCart className="h-5 w-5" />
                     <span className="font-medium">Orders</span>
-                  </Link>
-                  <Link href="/admin/products" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all">
+                  </SheetClose>
+                  <SheetClose render={<Link href="/admin/products" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all" />}>
                     <Package className="h-5 w-5" />
                     <span className="font-medium">Products</span>
-                  </Link>
-                  <Link href="/admin/categories" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all">
+                  </SheetClose>
+                  <SheetClose render={<Link href="/admin/categories" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all" />}>
                     <List className="h-5 w-5" />
                     <span className="font-medium">Categories</span>
-                  </Link>
-                  <Link href="/admin/customers" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all">
+                  </SheetClose>
+                  <SheetClose render={<Link href="/admin/customers" className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all" />}>
                     <Users className="h-5 w-5" />
                     <span className="font-medium">Customers</span>
-                  </Link>
+                  </SheetClose>
                 </nav>
               </div>
               <div className="p-4 border-t border-zinc-200 absolute bottom-0 w-full">
