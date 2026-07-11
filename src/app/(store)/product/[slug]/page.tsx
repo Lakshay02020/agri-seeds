@@ -77,7 +77,7 @@ export default async function ProductDetails({ params }: { params: Promise<{ slu
           {/* Details Section */}
           <div className="flex flex-col">
             <div className="mb-6">
-              <p className="text-green-600 font-semibold mb-2">{product.categories?.name || 'General'}</p>
+              <p className="text-green-600 font-semibold mb-2">{(product.categories as any)?.name || 'General'}</p>
               <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight mb-4">
                 {product.name}
               </h1>

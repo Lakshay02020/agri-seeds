@@ -103,7 +103,7 @@ export default async function Home() {
                     
                     <div>
                       <div className="text-xs font-medium text-green-600 mb-1">
-                        {product.categories?.name || 'Uncategorized'}
+                        {(product.categories as any)?.name || 'Uncategorized'}
                       </div>
                       <h3 className="font-semibold text-zinc-900 text-lg mb-1 line-clamp-1 group-hover:text-green-600 transition-colors">
                         {product.name}
