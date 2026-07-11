@@ -7,6 +7,12 @@ import { redirect } from 'next/navigation'
 export async function createProduct(formData: FormData) {
   const supabase = await createClient()
 
+  // Security Check
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "Unauthorized" }
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!profile || profile.role !== 'admin') return { error: "Forbidden: Admin access required" }
+
   const name = formData.get('name') as string
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
   
@@ -69,6 +75,13 @@ export async function createProduct(formData: FormData) {
 
 export async function deleteProduct(id: string) {
   const supabase = await createClient()
+
+  // Security Check
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "Unauthorized" }
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!profile || profile.role !== 'admin') return { error: "Forbidden: Admin access required" }
+
   const { error } = await supabase.from('products').delete().eq('id', id)
   
   if (error) {
@@ -81,6 +94,12 @@ export async function deleteProduct(id: string) {
 
 export async function updateProduct(id: string, formData: FormData) {
   const supabase = await createClient()
+
+  // Security Check
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: "Unauthorized" }
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (!profile || profile.role !== 'admin') return { error: "Forbidden: Admin access required" }
 
   const name = formData.get('name') as string
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
