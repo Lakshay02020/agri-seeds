@@ -2,6 +2,7 @@ import { Leaf, Menu } from "lucide-react"
 import Link from "next/link"
 import { CartDrawer } from "@/components/store/CartDrawer"
 import { createClient } from "@/lib/supabase/server"
+import { logout } from "@/actions/auth"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 
@@ -41,6 +42,11 @@ export default async function StoreLayout({
                 <Link href="/admin" className="text-sm font-medium text-zinc-600 hover:text-green-600 transition-colors">
                   Dashboard
                 </Link>
+                <form action={logout}>
+                  <button type="submit" className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
+                    Sign Out
+                  </button>
+                </form>
               </div>
             ) : (
               <Link href="/login" className="hidden sm:block text-sm font-medium text-zinc-600 hover:text-green-600 transition-colors">
@@ -77,6 +83,9 @@ export default async function StoreLayout({
                       <>
                         <SheetClose render={<Link href="/my-orders" className="block px-4 py-3 rounded-xl hover:bg-green-50 text-green-700 transition-colors" />}>My Orders</SheetClose>
                         <SheetClose render={<Link href="/admin" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>Admin Dashboard</SheetClose>
+                        <form action={logout} className="mt-2 border-t border-zinc-100 pt-2">
+                           <SheetClose render={<button type="submit" className="block w-full text-left px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors" />}>Sign Out</SheetClose>
+                        </form>
                       </>
                     ) : (
                       <SheetClose render={<Link href="/login" className="block px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-colors text-center mt-2" />}>Sign In</SheetClose>
