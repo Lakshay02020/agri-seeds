@@ -65,21 +65,21 @@ export default async function StoreLayout({
                     </div>
                     <span className="text-xl font-semibold tracking-tight text-zinc-900">AgriSeeds</span>
                   </Link>
-                  <nav className="flex flex-col gap-4 text-base font-medium text-zinc-600">
-                    <SheetClose render={<Link href="/" className="hover:text-green-600 transition-colors py-2" />}>Home</SheetClose>
-                    <SheetClose render={<Link href="/catalog" className="hover:text-green-600 transition-colors py-2" />}>All Seeds</SheetClose>
-                    <SheetClose render={<Link href="/categories" className="hover:text-green-600 transition-colors py-2" />}>Categories</SheetClose>
-                    <SheetClose render={<Link href="/about" className="hover:text-green-600 transition-colors py-2" />}>About Us</SheetClose>
+                  <nav className="flex flex-col gap-2 mt-4 font-sans text-base font-medium text-zinc-800">
+                    <SheetClose render={<Link href="/" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>Home</SheetClose>
+                    <SheetClose render={<Link href="/catalog" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>All Seeds</SheetClose>
+                    <SheetClose render={<Link href="/categories" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>Categories</SheetClose>
+                    <SheetClose render={<Link href="/about" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>About Us</SheetClose>
                     
-                    <div className="h-px w-full bg-zinc-100 my-2"></div>
+                    <div className="h-px w-full bg-zinc-200 my-4"></div>
                     
                     {user ? (
                       <>
-                        <SheetClose render={<Link href="/my-orders" className="hover:text-green-600 transition-colors py-2" />}>My Orders</SheetClose>
-                        <SheetClose render={<Link href="/admin" className="hover:text-green-600 transition-colors py-2" />}>Admin Dashboard</SheetClose>
+                        <SheetClose render={<Link href="/my-orders" className="block px-4 py-3 rounded-xl hover:bg-green-50 text-green-700 transition-colors" />}>My Orders</SheetClose>
+                        <SheetClose render={<Link href="/admin" className="block px-4 py-3 rounded-xl hover:bg-zinc-100 transition-colors" />}>Admin Dashboard</SheetClose>
                       </>
                     ) : (
-                      <SheetClose render={<Link href="/login" className="hover:text-green-600 transition-colors py-2" />}>Sign In</SheetClose>
+                      <SheetClose render={<Link href="/login" className="block px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-colors text-center mt-2" />}>Sign In</SheetClose>
                     )}
                   </nav>
                 </div>
