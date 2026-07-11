@@ -15,10 +15,14 @@ export async function createRazorpayOrder(amount: number) {
     
     // In a real app we'd verify the amount against the DB cart items here
     
+    // Receipt must be less than 40 chars for Razorpay API
+    const shortUserId = user?.id ? user.id.substring(0, 8) : 'guest'
+    const receipt = `rcpt_${Date.now().toString().substring(5)}_${shortUserId}`
+
     const options = {
-      amount: Math.round(amount * 100), // Razorpay requires amount in paise (smallest currency unit)
+      amount: Math.round(amount * 100), // Razorpay requires amount in paise
       currency: "INR",
-      receipt: `receipt_${Date.now()}_${user?.id || 'guest'}`,
+      receipt: receipt.substring(0, 40),
     }
 
     const order = await razorpay.orders.create(options)
