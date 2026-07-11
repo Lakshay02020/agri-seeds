@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useCart } from "@/store/useCart"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus, ShoppingBag } from "lucide-react"
+import { toast } from "sonner"
 
 interface AddToCartButtonProps {
   product: {
@@ -29,6 +30,11 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
       quantity,
       pack_size: product.pack_size,
       stock: product.stock,
+    })
+    
+    toast.success(`${quantity} ${quantity === 1 ? 'item' : 'items'} added to cart`, {
+      description: `${product.name} has been added to your shopping cart.`,
+      duration: 3000,
     })
   }
 
