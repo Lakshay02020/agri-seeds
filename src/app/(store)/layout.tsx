@@ -32,11 +32,16 @@ export default async function StoreLayout({
           
           <div className="flex items-center gap-4">
             {user ? (
-              <Link href="/admin" className="hidden sm:block text-sm font-medium text-zinc-600 hover:text-green-600">
-                Dashboard
-              </Link>
+              <div className="hidden sm:flex items-center gap-4">
+                <Link href="/my-orders" className="text-sm font-medium text-zinc-600 hover:text-green-600 transition-colors">
+                  My Orders
+                </Link>
+                <Link href="/admin" className="text-sm font-medium text-zinc-600 hover:text-green-600 transition-colors">
+                  Dashboard
+                </Link>
+              </div>
             ) : (
-              <Link href="/login" className="hidden sm:block text-sm font-medium text-zinc-600 hover:text-green-600">
+              <Link href="/login" className="hidden sm:block text-sm font-medium text-zinc-600 hover:text-green-600 transition-colors">
                 Sign In
               </Link>
             )}
