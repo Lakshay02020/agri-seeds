@@ -18,6 +18,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false)
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
 
   const [shipping, setShipping] = useState({
     fullName: '',
@@ -32,10 +33,10 @@ export default function CheckoutPage() {
   // Prevent hydration errors & redirect if cart is empty
   useEffect(() => {
     setMounted(true)
-    if (cart.items.length === 0) {
+    if (cart.items.length === 0 && !paymentSuccess) {
       router.push('/catalog')
     }
-  }, [cart.items.length, router])
+  }, [cart.items.length, router, paymentSuccess])
 
   // Load Razorpay Script
   useEffect(() => {
@@ -105,6 +106,7 @@ export default function CheckoutPage() {
             }
 
             // 4. Clear cart and redirect
+            setPaymentSuccess(true)
             cart.clearCart()
             router.push('/checkout/success')
             

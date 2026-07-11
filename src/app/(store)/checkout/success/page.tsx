@@ -48,7 +48,7 @@ export default function CheckoutSuccessPage() {
         
         <div className="pt-6">
           <Link 
-            href="/catalog" 
+            href="/" 
             className="inline-flex items-center justify-center w-full h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg shadow-green-600/20 text-base font-semibold group"
           >
             Continue Shopping
