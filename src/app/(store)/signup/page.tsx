@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Sprout } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function SignupPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
-  const { error } = await searchParams
+export default async function SignupPage({ searchParams }: { searchParams: Promise<{ error?: string, next?: string }> }) {
+  const { error, next } = await searchParams
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12">
@@ -34,6 +34,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
           )}
 
           <form action={signup}>
+            {next && <input type="hidden" name="next" value={next} />}
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="fullName">Full Name</Label>
@@ -74,7 +75,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
               </Button>
               <div className="text-center text-sm text-zinc-500">
                 Already have an account?{' '}
-                <Link href="/login" className="font-semibold text-green-600 hover:underline">
+                <Link href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"} className="font-semibold text-green-600 hover:underline">
                   Sign in
                 </Link>
               </div>

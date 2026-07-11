@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
 
   // Only check authentication for protected routes or auth routes
-  const isProtectedRoute = url.pathname.startsWith('/admin')
+  const isProtectedRoute = url.pathname.startsWith('/admin') || url.pathname.startsWith('/checkout')
   const isAuthRoute = url.pathname === '/login' || url.pathname === '/signup'
 
   if (isProtectedRoute || isAuthRoute) {
@@ -38,11 +38,14 @@ export async function middleware(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser()
 
-    // Protect /admin routes
+    // Protect routes
     if (isProtectedRoute) {
       if (!user) {
-        url.pathname = '/login'
-        return NextResponse.redirect(url)
+        // Allow success page to be viewed briefly before cart check handles it, 
+        // or just protect the main checkout flow
+        const loginUrl = new URL('/login', request.url)
+        loginUrl.searchParams.set('next', url.pathname)
+        return NextResponse.redirect(loginUrl)
       }
       
       // Admin is already enforced by the UI since we bypassed DB check for speed earlier, 
