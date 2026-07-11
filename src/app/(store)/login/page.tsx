@@ -6,7 +6,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Sprout } from 'lucide-react'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12">
       <div className="w-full max-w-md">
@@ -24,6 +26,13 @@ export default function LoginPage() {
               Enter your email and password to login to your account.
             </CardDescription>
           </CardHeader>
+          
+          {error && (
+            <div className="mx-6 mb-4 p-3 bg-red-50 text-red-600 text-sm font-medium rounded-md border border-red-200">
+              {error}
+            </div>
+          )}
+
           <form action={login}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
