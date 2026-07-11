@@ -71,6 +71,12 @@ export default function CheckoutPage() {
       
       // 1. Create order on server
       const order = await createRazorpayOrder(totalAmount)
+      
+      if (order.error) {
+        setError(order.error)
+        setLoading(false)
+        return
+      }
 
       // 2. Open Razorpay Checkout
       const options = {
@@ -84,13 +90,19 @@ export default function CheckoutPage() {
         handler: async function (response: any) {
           try {
             // 3. Verify Payment and Create DB Records
-            await verifyPaymentAndCreateOrder(
+            const verifyResult = await verifyPaymentAndCreateOrder(
               response.razorpay_payment_id,
               response.razorpay_order_id,
               response.razorpay_signature,
               cart.items,
               shipping
             )
+
+            if (verifyResult.error) {
+              setError(verifyResult.error)
+              setLoading(false)
+              return
+            }
 
             // 4. Clear cart and redirect
             cart.clearCart()

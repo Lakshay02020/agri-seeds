@@ -30,7 +30,7 @@ export async function createRazorpayOrder(amount: number) {
     }
   } catch (error: any) {
     console.error("Razorpay order creation error:", error)
-    throw new Error(error.message || "Failed to create payment order")
+    return { error: error.message || "Failed to create payment order" }
   }
 }
 
@@ -45,7 +45,7 @@ export async function verifyPaymentAndCreateOrder(
   const { data: { user } } = await supabase.auth.getUser()
   
   if (!user) {
-    throw new Error("Must be logged in to place an order")
+    return { error: "Must be logged in to place an order. Please log in first." }
   }
 
   // 1. We would typically verify the signature here using crypto
@@ -70,7 +70,8 @@ export async function verifyPaymentAndCreateOrder(
     .single()
 
   if (orderError || !dbOrder) {
-    throw new Error("Failed to save order to database")
+    console.error("Order Insert Error:", orderError)
+    return { error: "Failed to save order to database" }
   }
 
   // 3. Create order items
@@ -86,7 +87,8 @@ export async function verifyPaymentAndCreateOrder(
     .insert(orderItemsInsert)
 
   if (itemsError) {
-    throw new Error("Failed to save order items")
+    console.error("Order Items Insert Error:", itemsError)
+    return { error: "Failed to save order items" }
   }
 
   // 4. Update stock (simple approach for now)

@@ -2,6 +2,16 @@
 
 import { useState } from 'react'
 import { createProduct, updateProduct } from '@/actions/products'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CldUploadWidget } from 'next-cloudinary'
+import { ImagePlus, X } from 'lucide-react'
+import Image from 'next/image'
 
 export function ProductForm({ categories, initialData }: { categories: any[], initialData?: any }) {
   const [imageUrls, setImageUrls] = useState<string[]>(
