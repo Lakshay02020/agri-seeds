@@ -1,7 +1,9 @@
-import { Leaf } from "lucide-react"
+import { Leaf, Menu } from "lucide-react"
 import Link from "next/link"
 import { CartDrawer } from "@/components/store/CartDrawer"
 import { createClient } from "@/lib/supabase/server"
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 
 export default async function StoreLayout({
   children,
@@ -20,10 +22,10 @@ export default async function StoreLayout({
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
               <Leaf className="h-5 w-5" />
             </div>
-            <span className="text-xl font-semibold tracking-tight text-zinc-900">AgriSeeds</span>
+            <span className="text-xl font-semibold tracking-tight text-zinc-900 hidden sm:block">AgriSeeds</span>
           </Link>
           
-          <nav className="hidden md:flex gap-8 text-sm font-medium text-zinc-600">
+          <nav className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 absolute left-1/2 -translate-x-1/2">
             <Link href="/" className="text-zinc-900 hover:text-green-600 transition-colors">Home</Link>
             <Link href="/catalog" className="hover:text-green-600 transition-colors">All Seeds</Link>
             <Link href="/categories" className="hover:text-green-600 transition-colors">Categories</Link>
@@ -49,6 +51,40 @@ export default async function StoreLayout({
             <div className="h-4 w-px bg-zinc-200 mx-2 hidden sm:block"></div>
             
             <CartDrawer />
+
+            <Sheet>
+              <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
+                <Menu className="h-6 w-6 text-zinc-600" />
+                <span className="sr-only">Toggle mobile menu</span>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <div className="flex flex-col gap-6 pt-10">
+                  <Link href="/" className="flex items-center gap-2 mb-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+                      <Leaf className="h-5 w-5" />
+                    </div>
+                    <span className="text-xl font-semibold tracking-tight text-zinc-900">AgriSeeds</span>
+                  </Link>
+                  <nav className="flex flex-col gap-4 text-base font-medium text-zinc-600">
+                    <SheetClose render={<Link href="/" className="hover:text-green-600 transition-colors py-2" />}>Home</SheetClose>
+                    <SheetClose render={<Link href="/catalog" className="hover:text-green-600 transition-colors py-2" />}>All Seeds</SheetClose>
+                    <SheetClose render={<Link href="/categories" className="hover:text-green-600 transition-colors py-2" />}>Categories</SheetClose>
+                    <SheetClose render={<Link href="/about" className="hover:text-green-600 transition-colors py-2" />}>About Us</SheetClose>
+                    
+                    <div className="h-px w-full bg-zinc-100 my-2"></div>
+                    
+                    {user ? (
+                      <>
+                        <SheetClose render={<Link href="/my-orders" className="hover:text-green-600 transition-colors py-2" />}>My Orders</SheetClose>
+                        <SheetClose render={<Link href="/admin" className="hover:text-green-600 transition-colors py-2" />}>Admin Dashboard</SheetClose>
+                      </>
+                    ) : (
+                      <SheetClose render={<Link href="/login" className="hover:text-green-600 transition-colors py-2" />}>Sign In</SheetClose>
+                    )}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
