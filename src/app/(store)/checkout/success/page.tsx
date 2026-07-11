@@ -47,12 +47,13 @@ export default function CheckoutSuccessPage() {
         </div>
         
         <div className="pt-6">
-          <Button asChild className="w-full h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg shadow-green-600/20 text-base font-semibold group">
-            <Link href="/catalog">
-              Continue Shopping
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
+          <Link 
+            href="/catalog" 
+            className="inline-flex items-center justify-center w-full h-12 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-lg shadow-green-600/20 text-base font-semibold group"
+          >
+            Continue Shopping
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </div>
